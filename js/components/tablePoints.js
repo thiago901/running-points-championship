@@ -17,10 +17,12 @@ class TablePoints extends HTMLElement {
   styles(){
     const myStyles = document.createElement('style');
     myStyles.textContent= `
-      .td-img{
+   
+      .logo-time {
         width: 50px;
+        height: 50px;
+        border-radius: 50%;
       }
-      
     `;
     
     return myStyles;
@@ -37,7 +39,6 @@ class TablePoints extends HTMLElement {
         <table  class="table">
             <thead>
                 <tr>
-                    <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col">P</th>
@@ -71,14 +72,10 @@ class TablePoints extends HTMLElement {
         <table>
           <tr>
             <td scope="row">${index + 1}</td>                    
-            <td class="td-img" >
-              <img class="logo-time" src="https://robohash.org/${
-                team.name
-              }"/>
-            </td>
             <td>
-              <div>
-                <p>${team.name}</p>
+              <div class="d-flex align-items-center flex-md-row flex-column">
+                <img class="logo-time" src="https://robohash.org/${team.name}"/>
+                <p class="m-0">${team.name}</p>
               </div>
             </td>
             <td><b>${team.p}</b></td>

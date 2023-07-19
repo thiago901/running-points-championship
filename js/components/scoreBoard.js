@@ -75,7 +75,7 @@ class ScoreBoard extends HTMLElement {
                 <div class="carousel-item ${i===positionInitial?'active':''} mb-1">
 
                     <div class="d-flex justify-content-center">
-                        <div class="card-match" id="card-match-id">
+                        <div class="d-flex flex-column w-100" id="card-match-id">
                             <strong class="text-center mb-1" >#${i+1}</strong>
                             <div 
                               class="status mb-3 rounded p-1 flex-grow-1 ${item.isPlayed?'sucess':''}"
@@ -83,23 +83,29 @@ class ScoreBoard extends HTMLElement {
                               ${item.isPlayed?'Finalizado':'Não Jogado'}
                             </div>
                             
+                          
+                            <div class="d-flex flex-md-row flex-column align-items-center justify-content-center  mb-2">
+                                
+                                <div class="d-flex flex-column align-items-center">
+                                  <img src="https://robohash.org/${item.game[0].name}" alt="Time A" class="w-25 rounded-circle">
+                                  <span class="text-align-center">${item.game[0].name}</span>
+                                </div>
+                                   
+                                <div class="d-flex flex-md-row flex-column align-items-center">
+                                  <div class="score-input d-flex align-items-center my-1">
+                                    <input id="player-${item.id}-${item.game[0].id}" ${item.isPlayed?'disabled':''} type="number" min="0" max="99" step="1" value="${item.game[0].score}">
+                                  </div>
+                                  <span class="my-1 fs-6 text-end d-inline-block mx-3">X</span>
+                                  <div class="score-input">
+                                    <input id="player-${item.id}-${item.game[1].id}" ${item.isPlayed?'disabled':''} type="number" min="0" max="99" step="1" value="${item.game[1].score}">
+                                  </div>
+                                </div>
 
-                            <div class="partida">
-                                <div class="time">
-                                    <img src="https://robohash.org/${item.game[0].name}" alt="Time A" class="logo-time">
-                                    <span class="nome-time">${item.game[0].name}</span>
-                                    <div class="score-input">
-                                      <input id="player-${item.id}-${item.game[0].id}" ${item.isPlayed?'disabled':''} type="number" min="0" max="99" step="1" value="${item.game[0].score}">
-                                    </div>
+                                <div class="d-flex flex-column align-items-center">
+                                  <img src="https://robohash.org/${item.game[1].name}" alt="Time B" class="w-25 rounded-circle">
+                                  <span class="text-align">${item.game[1].name}</span>
                                 </div>
-                                <span class="versus">X</span>
-                                <div class="time">
-                                    <div class="score-input">
-                                      <input id="player-${item.id}-${item.game[1].id}" ${item.isPlayed?'disabled':''} type="number" min="0" max="99" step="1" value="${item.game[1].score}">
-                                    </div>
-                                    <img src="https://robohash.org/${item.game[1].name}" alt="Time B" class="logo-time">
-                                    <span class="nome-time">${item.game[1].name}</span>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -120,40 +126,15 @@ class ScoreBoard extends HTMLElement {
     const myStyles = document.createElement('style');
     myStyles.textContent= `
       
-      .versus {
-        font-size: 24px;
-        margin: 0 10px;
-      }
+     
       .status{
           background: var(--bs-light);
           color: var(--bs-dark);
           text-align: center;
       }
-      .card-match{
-          max-width: 70%;
-          display: flex;
-          flex-direction: column;
-          
-      }
-      .partida {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: Arial, sans-serif;
-        font-size: 18px;
-        margin-bottom: 20px;
-      }
   
-      .time {
-        display: flex;
-        align-items: center;
-        margin-right: 10px;
-      }
-      .score-input {
-        display: flex;
-        align-items: center;
-        margin: 0 1rem;
-      }
+  
+      
       .sucess{
         background: #198754 !important;
         color:#000000 !important;
@@ -163,7 +144,7 @@ class ScoreBoard extends HTMLElement {
         
         width: 50px;
         text-align: center;
-        font-size: 2rem;
+        font-size: 3rem;
         border: none;
         background: none;
         -moz-appearance: textfield; /* Para Firefox */
@@ -174,10 +155,9 @@ class ScoreBoard extends HTMLElement {
         display: none; /* Para Chrome, Safari e Opera */
       }
       .logo-time {
-        width: 50px;
-        height: 50px;
+        width: 100px;
+        height: 100px;
         border-radius: 50%;
-        margin-right: 10px;
       }
       .ranking{
         display: flex;
@@ -273,7 +253,7 @@ class ScoreBoard extends HTMLElement {
 
     repositories.teams.save(cleanPoints);
   }
-handleCreateAllMatches(){
+  handleCreateAllMatches(){
   
       const teams = repositories.teams.list();
 
@@ -284,6 +264,7 @@ handleCreateAllMatches(){
   }
   createCarousel(){
     const teams = repositories.teams.list();
+    
     const template = `
     
       <div id="matches" class="carousel slide">
@@ -327,7 +308,7 @@ handleCreateAllMatches(){
       return doc
     }
     const newTeams = [teams[1],teams[0],teams[2]];
-    console.log('newTeams',newTeams);
+    
     const allElementsItems =[];
     for (let index = 0; index < newTeams.length; index++) {
       const pos ={
@@ -369,9 +350,12 @@ handleCreateAllMatches(){
   }
 
   render() {
-    
+    const matches = repositories.matches.list();
     
     this.appendChild(this.styles());
+    if(!matches.length){
+      return
+    }
     
     
     const carouselContainer = this.createCarousel();

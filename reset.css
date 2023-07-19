@@ -47,16 +47,3 @@ table {
 	border-spacing: 0;
 }
 
-
-
-@media screen and (max-width: 768px) {
-    /* Seu estilo para dispositivos móveis aqui */
-    .container {
-      padding: 0.2rem; /* Por exemplo, padding de 10 pixels */
-    }
-  }
-  
-  /* Estilos para dispositivos maiores */
-  .container {
-    padding: 1rem;
-  }

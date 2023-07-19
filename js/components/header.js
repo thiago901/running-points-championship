@@ -30,7 +30,7 @@ class MyHeader extends HTMLElement {
 			}))
 
 			repositories.teams.save(cleanPoints);
-		}
+	}
   handleCreateAllMatches(){
     
         const teams = repositories.teams.list();
@@ -78,7 +78,21 @@ class MyHeader extends HTMLElement {
     window.location.reload();
 
   }
+  styles(){
+    const myStyles = document.createElement('style');
+    myStyles.textContent= `
+      @media screen and (max-width: 768px) {
+        #content-header{
+          flex-direction: column;
+        }
+        
+      }
+    `
+    return myStyles;
+  }
   render(){
+
+    this.appendChild(this.styles());
     const teams = repositories.teams.list();
     const hasTeams = !!teams.length;
 
@@ -101,7 +115,7 @@ class MyHeader extends HTMLElement {
     cleanStorageButton.addEventListener('click',this.cleanAll.bind(this));
 
     const template = `
-      <div class="d-flex flex-row mb-3 justify-content-between" id="content-header">
+      <div class="d-flex flex-md-row gap-2 flex-column mb-3 justify-content-between" id="content-header">
         <button
           type="button" 
           class="btn btn-primary" 
